@@ -1,15 +1,27 @@
-import random #this module used to generate random numbers
-import math
+import tkinter as tk
+import random
+import string
 
-def generate_password(length):
-    password = ""
-    #the function chooses a characters for the password from this character string
-    characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()"
-    for i in range(length):
-        new= math.floor(random.random() * len(characters)) #this line generates a random number between 0 and the length of the characters string minus 1
-        password += characters[new]
+def generate_password(length=12):
+    characters = string.ascii_letters + string.digits + string.punctuation
+    password = ''.join(random.choice(characters) for _ in range(length))
     return password
 
-password_length = int(input("Enter password length: "))
-generated_password = generate_password(password_length)
-print("Your password is:", generated_password)
+def generate_and_display_password():
+    password = generate_password()
+    password_label.config(text="Generated Password: " + password)
+
+# Create the main window
+root = tk.Tk()
+root.title("Password Generator")
+
+# Create a label to display the generated password
+password_label = tk.Label(root, text="")
+password_label.pack(pady=10)
+
+# Create a button to generate a new password
+generate_button = tk.Button(root, text="Generate Password", command=generate_and_display_password)
+generate_button.pack(pady=5)
+
+# Start the main loop
+root.mainloop()
